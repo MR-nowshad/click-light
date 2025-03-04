@@ -7,16 +7,21 @@
 
 body
 {
-    display:flex;
-    justify-content: center;
+    display: flex;
+    justify-content: flex-start; /* Keep the bulb on the left */
     align-items: center;
     min-height: 100vh;
     background: #222;
+    padding-left: 10%;
+    position: relative;
 }
+
 body.on
 {
-    background: radial-gradient(#f5e721,#111);
+    background: radial-gradient(circle at 10% 50%, #04e0c3, #111); /* Light centered under bulb */
 }
+
+/* Light Bulb */
 .bulb
 {
     position: relative;
@@ -26,22 +31,51 @@ body.on
     border-radius: 50%;
     z-index: 2;
 }
+
 body.on .bulb
 {
-    background:#fff;
+    background: #fff;
     box-shadow: 0 0 50px #fff,
-    0 0 100px #fff,
-    0 0 150px #fff,
-    0 0 200px #fff,
-    0 0 250px #fff,
-    0 0 300px #fff
-    0 0 350px #fff;
+                0 0 100px #fff,
+                0 0 150px #fff,
+                0 0 200px #fff,
+                0 0 250px #fff,
+                0 0 300px #fff;
 }
+
+/* Light effect centered under bulb */
+body.on .bulb::after
+{
+    content: '';
+    position: absolute;
+    top: 100%; /* Move light effect below bulb */
+    left: 50%;
+    transform: translate(-50%, -10%);
+    width: 120px;
+    height: 120px;
+    background: #fff;
+    border-radius: 50%;
+    filter: blur(40px);
+}
+
+/* Wire (Now properly attached to the bulb) */
+.wire
+{
+    position: absolute;
+    left: calc(10% + 38px); /* Align wire to bulb */
+    top: 0;
+    width: 4px;
+    height: 50vh;
+    background: #000;
+    z-index: 1;
+}
+
+/* Bulb Top Part */
 .bulb::before
 {
     content: '';
     position: absolute;
-    top:-50px;
+    top: -50px;
     left: 22.5px;
     width: 35px;
     height: 80px;
@@ -49,68 +83,13 @@ body.on .bulb
     border-top: 30px solid #000;
     border-radius: 10px;
 }
+
 body.on .bulb::before
 {
-    background:#fff;
+    background: #fff;
 }
-body.on .bulb::after
-{
-   content: '';
-   position:absolute;
-   top: 50%;
-   left: 50%;
-   transform: translate(-50%,-50%);
-   width: 120px;
-   height: 120px;
-   background: #fff;
-   border-radius: 50%;
-   filter:blur(40px);
 
-}
-.bulb span:nth-child(1)
-{
-   position: absolute;
-   top: -16px;
-   left: -4px;
-   display:block;
-   width: 30px;
-   height: 30px;
-   background: transparent;
-   transform: rotate(342deg);
-   border-bottom-right-radius: 40px;
-   box-shadow: 20px 20px 0 10px #444;
-}
-body.on .bulb span:nth-child(1)
-{
-    box-shadow: 20px 20px 0 10px #fff;
-}
-.bulb span:nth-child(2)
-{
-   position: absolute;
-   top: -16px;
-   right: -4px;
-   display:block;
-   width: 30px;
-   height: 30px;
-   background: transparent;
-   transform: rotate(17deg);
-   border-bottom-left-radius: 40px;
-   box-shadow: -20px 20px 0 10px #444;
-}
-body.on .bulb span:nth-child(2)
-{
-    box-shadow: -20px 20px 0 10px #fff;
-}
-.wire
-{
-    position: absolute;
-    left: calc(50% - 2px);
-    bottom: 50%;
-    width: 4px;
-    height: 60vh;
-    background: #000;
-    z-index: 1;
-}
+/* Switch */
 .switch
 {
     position: absolute;
@@ -125,6 +104,7 @@ body.on .bulb span:nth-child(2)
     justify-content: center;
     align-items: center;
 }
+
 .switch .button
 {
     position:relative;
@@ -135,9 +115,10 @@ body.on .bulb span:nth-child(2)
     border: 2px solid #000;
     cursor: pointer;
 }
+
 .switch .button::before
 {
-    content:'';
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
@@ -146,12 +127,77 @@ body.on .bulb span:nth-child(2)
     background: linear-gradient(#fff,#fff);
     border-radius: 4px;
 }
+
 .on .switch .button::before
 {
     top: 15%;
-
 }
+
+/* Hide Audio */
 #audio
 {
     display: none;
+}
+/* Login/Signup Container */
+.login-container {
+    position: absolute;
+    top: 5%;
+    right: 10%;
+    width: 300px;
+    height: 500px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    text-align: center;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    opacity: 0;
+    transform: scale(0.8);
+    display: none;
+}
+
+body.on .login-container {
+    opacity: 1;
+    transform: scale(1);
+    display: block;
+}
+
+/* Login Box */
+.login-box h2 {
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 10px;
+    background: yellow;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Toggle Text */
+.toggle-text {
+    color: #fff;
+    margin-top: 10px;
+}
+
+.toggle-text span {
+    color: yellow;
+    cursor: pointer;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.toggle-text span:hover {
+    color: #ff0;
 }
