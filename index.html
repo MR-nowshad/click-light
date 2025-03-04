@@ -16,17 +16,89 @@
                 <div class="button"></div>
             </div>
         </div>
+        <div class="login-container">
+            <div class="login-box">
+                <h2 id="form-title">Login</h2>
+                <input type="text" placeholder="Username">
+                <input type="password" placeholder="Password">
+                <button>Login</button>
+                <p class="toggle-text">Don't have an account? <span id="signup-link">Sign Up</span></p>
+            </div>
+        </div>
+        <!-- Expanding Circle Effect -->
+        <div class="circle"></div>
+
         <!--add sound on click-->
         <audio id="audio" src="click.wav" autostart="false"></audio>
-        <script>
-            let button = document.querySelector('.button');
-            let body = document.querySelector('.body');
-            let audio = document.querySelector('#audio');
-            button.onclick=function()
-            {
-                document .body .classList .toggle('on');
+
+        <!-- Expanding Circle Effect -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let button = document.querySelector(".button"); // Light switch button
+            let body = document.body;
+            let audio = document.querySelector("#audio");
+            let signupLink, loginLink, formTitle, loginBox;
+        
+            // Function to toggle the light and play sound
+            button.onclick = function () {
+                body.classList.toggle("on");
                 audio.play();
+                toggleLoginBox();
+            };
+        
+            // Function to toggle login/signup visibility
+            function toggleLoginBox() {
+                let loginContainer = document.querySelector(".login-container");
+                if (body.classList.contains("on")) {
+                    loginContainer.style.display = "block";
+                    setTimeout(() => {
+                        loginContainer.style.opacity = "1";
+                        loginContainer.style.transform = "scale(1)";
+                    }, 100);
+                } else {
+                    loginContainer.style.opacity = "0";
+                    loginContainer.style.transform = "scale(0.8)";
+                    setTimeout(() => {
+                        loginContainer.style.display = "none";
+                    }, 500);
+                }
             }
-        </script>
+        
+            // Function to add login/signup toggle behavior
+            function addEventListeners() {
+                signupLink = document.getElementById("signup-link");
+                loginBox = document.querySelector(".login-box");
+                formTitle = document.getElementById("form-title");
+                let loginInputs = loginBox.innerHTML; // Store default login form
+        
+                if (signupLink) {
+                    signupLink.addEventListener("click", function () {
+                        formTitle.innerText = "Sign Up";
+                        loginBox.innerHTML = `
+                            <h2>Sign Up</h2>
+                            <input type="text" placeholder="Username">
+                            <input type="email" placeholder="Email">
+                            <input type="password" placeholder="Password">
+                            <button>Sign Up</button>
+                            <p class="toggle-text">Already have an account? <span id="login-link">Login</span></p>
+                        `;
+        
+                        // Attach event listener to new login link
+                        document.getElementById("login-link").addEventListener("click", function () {
+                            formTitle.innerText = "Login";
+                            loginBox.innerHTML = loginInputs;
+                            addEventListeners(); // Reattach events
+                        });
+                    });
+                }
+            }
+        
+            addEventListeners(); // Initialize event listeners on load
+        });
+
+        
+    </script>
+    
     </body>
 </html>
